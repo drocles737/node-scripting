@@ -10,7 +10,8 @@ module.exports = {
     GET: {
         params: ["id"],
         handler: function(req, res, p){
-                send(req, res, {says: "Quack2", method: req.method, parm: p});
+                let parms = p !== ""? p.replace("/", "").split("/"): null;
+                send(req, res, {says: "Quack2", method: req.method, parm: parms});
         }
     },  
     POST: {

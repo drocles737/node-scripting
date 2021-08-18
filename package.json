@@ -4,6 +4,10 @@
   "description": "node serverside programmering",
   "main": "server.js",
   "dependencies": {
+    "mariadb": "^2.5.4",
+    "msnodesqlv8": "^2.2.0",
+    "mssql": "^7.2.0",
+    "node-mssql": "0.0.1",
     "nodemon": "^2.0.12",
     "npm": "^7.20.6"
   },

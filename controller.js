@@ -4,6 +4,7 @@ const api = {};
 
 api["/api/duck"] = require("./api/duck");
 api["/api/cat"] = require("./api/cat");
+api["/api/person"] = require("./api/person");
 
 
 module.exports = function(req, res){
@@ -22,9 +23,10 @@ module.exports = function(req, res){
         helpers.streamFile(req, res, "./static/" + result[0]);
         return;
     }
-
+    //
     // hvis jeg er her er der ikke fundet et match
-    const apiParamRx = /(?<Grp1>(?<Grp2>^\/api\/\w+)(?<Grp3>\/?\w+$))/i;
+    // /^(?<route>\/api\/\w+)(?<params>(\/\w+)*)$/
+    const apiParamRx = /^(?<route>\/api\/\w+)(?<id>(\/\w+)*)$/
     //const apiRX = /^\/api\/\w+$/i;
     result = endpoint.match(apiParamRx);
     //apiparam
@@ -33,15 +35,26 @@ module.exports = function(req, res){
     if(result){
         // hvis jeg er her er der fundet et match
         //result[0]]req.method])
-        if(api[result[2]]){
-            if(api[result[2]][req.method])
+        
+        if(api[result.groups.route] && result.groups.id == null)
+        {
+            if(api[result.groups.route][req.method])
             {
-                api[result[2]][req.method].handler(req, res, result[3]);
+                api[result.groups.route][req.method].handler(req, res, result.groups.id);
                 return;
             }
             helpers.send(req, res, {msg: "Metode ikke tilladt her"}, 405);
             return;
-        } 
+        }if(api[result.groups.route] && result.groups.id != null)
+        {
+            if(api[result.groups.route][req.method])
+            {
+                api[result.groups.route][req.method].handler(req, res, result.groups.id);
+                return;
+            }
+            helpers.send(req, res, {msg: "Metode ikke tilladt her"}, 405);
+            return;
+        }
         if(api[result[0]]){
 
             if(api[result[0]][req.method])
@@ -53,16 +66,18 @@ module.exports = function(req, res){
             return;
         }
     }   
-
-
+    console.log(endpoint);
+    helpers.send(req, res, {message: "resource " + endpoint + " Ikke tilgængelig"}, 404);
+    // ikke brug code section
     //forbedre api id and grouping
    // (^\/api\/\w+)(\/?\w+$)
+
+   // /(?<Grp1>(?<Grp2>^\/api\/\w+)(?<Grp3>\/?\w+$))/i;
    //(?<Grp1>(?<Grp2>)^\/api\/\w+)(?<Grp3>)(\/?\w+$)
     //if(endpoint === "/index.html")
     //{
     //    helpers.sendfile(req, res, "./static/index.html");
      //   return;
    // }
-    console.log(endpoint);
-    helpers.send(req, res, {message: "resource " + endpoint + " Ikke tilgængelig"}, 404);
+    
 }
