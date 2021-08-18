@@ -16,7 +16,7 @@ module.exports = {
     },  
     POST: {
         handler: function(req, res){
-            send(req, res, {says: "Quack", method: req.method});
+            send(req, res, {says: "Quacksss", method: req.method});
         }
     }
 }
