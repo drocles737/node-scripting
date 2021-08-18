@@ -1,0 +1,25 @@
+{
+  "name": "scripting",
+  "version": "1.0.0",
+  "description": "node serverside programmering",
+  "main": "server.js",
+  "dependencies": {
+    "nodemon": "^2.0.12",
+    "npm": "^7.20.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drocles737/node-scripting.git"
+  },
+  "author": "Ani",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drocles737/node-scripting/issues"
+  },
+  "homepage": "https://github.com/drocles737/node-scripting#readme"
+}
